@@ -17,10 +17,10 @@
 				"unit" : "%",
 				"value" : 0,
 				"gpio" : 12
-			}
+			},
 			"pir" : {
 				"name" : "Passive Infrared",
-				"description" : "A passive infrared sensor. When true someone is present."
+				"description" : "A passive infrared sensor. When true someone is present.",
 				"value" : true,
 				"gpio" : 17
 			}
@@ -28,12 +28,12 @@
 		},
 		"actuators" : {
 			"leds" : {
-				"1" : {
+				"one" : {
 					"name" : "LED 1",
 					"value" : false,
 					"gpio": 4
-				}
-				"2" : {
+				},
+				"two" : {
 					"name" : "LED 2",
 					"value" : false,
 					"gpio" : 9

@@ -3,21 +3,19 @@ var express = require('express'),
 	resources = require('./../resources/model');
 
 	
-router.route('/').get(functions (req, res, next) {
+router.route('/').get(function (req, res, next) {
 	res.send(resources.pi.actuators);		
 });
-router.route('/sensors').get(functions (req, res, next) {
-	res.send(resources.pi.sensors.pir);
-});
-router.route('/leds').get(functions (req, res, next) {
+router.route('/leds').get(function (req, res, next) {
 	res.send(resources.pi.actuators.leds);
-});
-router.route('/1').get(functions (req, res, next) {
-	res.send(resources.pi.actuators.leds.1);
-});
-router.route('/2').get(functions (req, res, next) {
-	res.send(resources.pi.actuators.leds.2);
-});
+})
+router.route('/leds/one').get(function (req, res, next) {
+	res.send(resources.pi.actuators.leds.one.name+". "+
+				"Value: "+resources.pi.actuators.leds.one.value);
+})
+router.route('/leds/two').get(function (req, res, next) {
+	res.send(resources.pi.actuators.leds.two.name+". "+
+				"Value: "+resources.pi.actuators.leds.two.value);
+})
 
 module.exports = router;
-	

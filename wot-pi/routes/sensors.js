@@ -3,17 +3,23 @@ var express = require('express'),
 	resources = require('./../resources/model');
 
 	
-router.route('/').get(functions (req, res, next) {
+router.route('/').get(function (req, res, next) {
 	res.send(resources.pi.sensors);		
 });
-router.route('/sensors').get(functions (req, res, next) {
-	res.send(resources.pi.sensors.pir);
+router.route('/pir').get(function (req, res, next) {
+	res.send(resources.pi.sensors.pir.name+". "+
+				resources.pi.sensors.pir.description+" "+
+				"Value: " + resources.pi.sensors.pir.value);
+})
+router.route('/temperature').get(function (req, res, next) {
+	res.send(resources.pi.sensors.temperature.name+". "+
+				resources.pi.sensors.temperature.description+" "+
+				"Value: "+resources.pi.sensors.temperature.value);
 });
-router.route('/temperature').get(functions (req, res, next) {
-	res.send(resources.pi.sensors.temperature);
-});
-router.route('/humidity').get(functions (req, res, next) {
-	res.send(resources.pi.sensors.humidity);
+router.route('/humidity').get(function (req, res, next) {
+	res.send(resources.pi.sensors.humidity.name+". "+
+				resources.pi.sensors.humidity.description+" "+
+				"Value: "+resources.pi.sensors.humidity.value);
 });
 
 module.exports = router;
