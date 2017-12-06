@@ -1,8 +1,7 @@
 var resources = require('./../../resources/model');
 
 var interval, sensor;
-var modelT = resources.pi.sensors.temperature;
-var modelH = resources.pi.sensors.humidity;
+var model = resources.pi.sensors;
 var pluginTName = resources.pi.sensors.temperature.name;
 var pluginHName = resources.pi.sensors.humidity.name;
 var localParams = {'simulate': false, 'frequency':2000};
@@ -28,8 +27,8 @@ exports.stop = function() {
 
 function simulate() {
 	interval = setInterval(function() {
-		model.temperature.value = !model.temperature.value;
-		model.humidity.value = !model.humidity.value;
+		model.temperature.value = Math.floor(Math.random() * 50);
+		model.humidity.value = Math.floor(Math.random() * 100);
 		showValue();
 	}, localParams.frequency);
 	console.info('Simulated '+pluginHName+' and '+pluginTName+' sensor!');
