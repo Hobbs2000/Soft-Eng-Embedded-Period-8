@@ -8,6 +8,8 @@ var localParams = {'simulate': false, 'frequency':2000};
 
 exports.start = function(params) {
 	localParams = params;
+	observe(model.one);
+	observe(model.two);
 	if (localParams.simulate) {
 		simulate();
 	}
@@ -25,21 +27,28 @@ exports.stop = function() {
 	}
 }
 
+
+function observe(what) {
+	Object.observe(what, function (changes) {
+		console.info('Change detected by plugin for %s...', what.name);
+		switchOnOff(what, what.value); 
+	});
+};
+
+function switchOnOff(what, value) {
+	if (!localParams.simulate) {
+		actuator.write(value === true ? 1 : 0, function() {
+			console.info('Changed value of %s to %s', what.name, value); 
+		});
+	}
+};
+
 function connectHardware() {
 	var Gpio = require('onoff').Gpio;
-	led1 = new Gpio(model.one.gpio, 'out', 'both');
-	led2 = new Gpio(mode.two.gpio, 'out', 'both');
-	led1.watch(function (err, value) {
-		if (err) exit (err);
-		model.one.value = !!value;
-		showValue();
-	});
-	led2.watch(function (err, value) {
-		if (err) exit (err);
-		model.two.value = !!value;
-		showValue();
-	});
-	console.info('Hardware '+pluginName1+' & '+pluginName2+' started!');
+	actuator1 = new Gpio(model.one.gpio, 'out');
+	actuator2 = new Gpio(model.two.gpio, 'out');
+	console.info('Hardware %s and %s actuator started!', model.one.name, model.two.name);
+	
 };
 
 function simulate() {
