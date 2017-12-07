@@ -1,0 +1,5 @@
+.editorconfig
+.gitattributes
+Gruntfile.js
+jshintconfig.json
+test

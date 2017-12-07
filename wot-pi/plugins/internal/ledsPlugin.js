@@ -1,4 +1,5 @@
 var resources = require('./../../resources/model');
+var utils = require('./../../utils/utils');
 
 var interval, sensor;
 var model = resources.pi.actuators.leds;
@@ -8,10 +9,12 @@ var localParams = {'simulate': false, 'frequency':2000};
 
 exports.start = function(params) {
 	localParams = params;
-	observe(model.one);
-	observe(model.two);
+
+	var pOne = utils.createObservable(model.one, model.one.name);
+	var pTwo = utils.createObservable(model.two, model.two.name);
+	var allActuators = {pOne : pOne, pTwo : pTwo};
 	if (localParams.simulate) {
-		simulate();
+		simulate(allActuators);
 	}
 	else {
 		connectHardware();
@@ -27,13 +30,6 @@ exports.stop = function() {
 	}
 }
 
-
-function observe(what) {
-	Object.observe(what, function (changes) {
-		console.info('Change detected by plugin for %s...', what.name);
-		switchOnOff(what, what.value); 
-	});
-};
 
 function switchOnOff(what, value) {
 	if (!localParams.simulate) {
@@ -51,10 +47,10 @@ function connectHardware() {
 	
 };
 
-function simulate() {
+function simulate(actuators) {
 	interval = setInterval(function() {
-		model.one.value = !model.one.value;
-		model.two.value = !model.two.value;
+		actuators.pOne.value = !actuators.pOne.value;
+		actuators.pTwo.value = !actuators.pTwo.value;
 		showValue();
 	}, localParams.frequency);
 	console.info('Simulated '+pluginName1+' & '+pluginName2+' started!');

@@ -4,18 +4,20 @@ var express = require('express'),
 
 	
 router.route('/').get(function (req, res, next) {
-	res.send(resources.pi.actuators);		
+	req.result = resources.pi.actuators;
+	next();		
 });
 router.route('/leds').get(function (req, res, next) {
-	res.send(resources.pi.actuators.leds);
+	req.result = resources.pi.actuators.leds;
+	next();
 })
 router.route('/leds/one').get(function (req, res, next) {
-	res.send(resources.pi.actuators.leds.one.name+". "+
-				"Value: "+resources.pi.actuators.leds.one.value);
+	req.result = resources.pi.actuators.leds.one;
+	next();
 })
 router.route('/leds/two').get(function (req, res, next) {
-	res.send(resources.pi.actuators.leds.two.name+". "+
-				"Value: "+resources.pi.actuators.leds.two.value);
+	req.result = resources.pi.actuators.leds.two;
+	next();
 })
 
 module.exports = router;
