@@ -8,3 +8,15 @@ exports.createObservable = function(obj, objName) {
 
 	return new Proxy(obj, handler);
 }
+
+exports.createObservableCustom = function(obj, callback) {
+	var handler = {
+		set(target, key, value) {
+			console.info('Setting %s as %s', key, value);
+			callback(obj.name, value);
+			target[key] = value;
+		}
+	}
+	
+	return new Proxy(obj, handler);
+}

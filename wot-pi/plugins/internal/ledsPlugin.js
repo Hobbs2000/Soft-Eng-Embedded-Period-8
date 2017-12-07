@@ -10,8 +10,12 @@ var localParams = {'simulate': false, 'frequency':2000};
 exports.start = function(params) {
 	localParams = params;
 
-	var pOne = utils.createObservable(model.one, model.one.name);
-	var pTwo = utils.createObservable(model.two, model.two.name);
+	var pOne = utils.createObservableCustom(model.one, function(value) {
+		switchOnOff(model, value);
+	});
+	var pTwo = utils.createObservableCustom(model.one, function(value) {
+		switchOnOff(model, value);
+	});
 	var allActuators = {pOne : pOne, pTwo : pTwo};
 	if (localParams.simulate) {
 		simulate(allActuators);
@@ -31,10 +35,10 @@ exports.stop = function() {
 }
 
 
-function switchOnOff(what, value) {
+function switchOnOff(model, value) {
 	if (!localParams.simulate) {
 		actuator.write(value === true ? 1 : 0, function() {
-			console.info('Changed value of %s to %s', what.name, value); 
+			console.info('Changed value of %s to %s', model.name, value); 
 		});
 	}
 };
