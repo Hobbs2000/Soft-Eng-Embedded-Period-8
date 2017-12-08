@@ -1,12 +1,15 @@
-var resources = require('./../../resources/model');
+var resources = require('./../../resources/model'),
+	observables = require('./../../resources/observables'),
+	utils = require('./../../utils/utils');
 
 var interval, sensor;
-var model = resources.pi.sensors.pir;
+var model = observables.pi.sensors.pir;
 var pluginName = resources.pi.sensors.pir.name;
 var localParams = {'simulate': false, 'frequency':2000};
 
 exports.start = function(params) {
 	localParams = params;
+	setupObservables();
 	if (localParams.simulate) {
 		simulate();
 	}
@@ -45,4 +48,10 @@ function simulate() {
 
 function showValue() {
 	console.info(model.value ? 'there is someone!' : 'not anyomore!');
+};
+
+function setupObservables() {
+	model = utils.createObservable(resources.pi.sensors.pir, function(target, key, value) {
+		console.info('%s %s was changed to %s', target.name, key, value);
+	})
 };
