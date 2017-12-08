@@ -1,6 +1,7 @@
 var express = require('express'),
 	router = express.Router(),
 	resources = require('./../resources/model');
+	ledsPlugin = require('./../plugins/internal/ledsPlugin');
 
 	
 router.route('/').get(function (req, res, next) {
@@ -11,13 +12,17 @@ router.route('/leds').get(function (req, res, next) {
 	req.result = resources.pi.actuators.leds;
 	next();
 })
-router.route('/leds/one').get(function (req, res, next) {
-	req.result = resources.pi.actuators.leds.one;
+
+router.route('/leds/:id').get(function(req, res, next) {
+	req.result = ledsPlugin.actuatorModels[req.params.id];
+	next();
+}).put(function(req, res, next) {
+	var selectedLed = ledsPlugin.actuatorModels[req.params.id];
+	selectedLed.value = req.body.value;
+	console.info('Changed LED %s value to %s', req.params.id, selectedLed.value);
+	req.result = selectedLed;
 	next();
 })
-router.route('/leds/two').get(function (req, res, next) {
-	req.result = resources.pi.actuators.leds.two;
-	next();
-})
+
 
 module.exports = router;

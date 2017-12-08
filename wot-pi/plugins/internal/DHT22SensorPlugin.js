@@ -1,13 +1,16 @@
-var resources = require('./../../resources/model');
+var resources = require('./../../resources/model'),
+	observables = require('./../../resources/observables'),
+	utils = require('./../../utils/utils');
 
 var interval, sensor;
-var model = resources.pi.sensors;
+var model = observables.pi.sensors;
 var pluginTName = resources.pi.sensors.temperature.name;
 var pluginHName = resources.pi.sensors.humidity.name;
 var localParams = {'simulate': false, 'frequency':2000};
 
 exports.start = function(params) {
 	localParams = params;
+	setupObservables();
 	if (localParams.simulate) {
 		simulate();
 	}
@@ -57,3 +60,12 @@ function connectHardware() {
 		}
 	}
 };
+
+function setupObservables() {
+	observables.pi.sensors.temperature = utils.createObservable(resources.pi.sensors.temperature, function(target, key, value) {
+		console.info('%s %s was changed to %s',target.name, key, value);
+	});
+	observables.pi.sensors.humidity = utils.createObservable(resources.pi.sensors.humidity, function(target, key, value) {
+		console.info('%s %s was changed to %s',target.name, key, value);
+	})
+}
