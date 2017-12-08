@@ -10,12 +10,14 @@ var localParams = {'simulate': false, 'frequency':2000};
 exports.start = function(params) {
 	localParams = params;
 
-	var pOne = utils.createObservableCustom(model.one, function(value) {
-		switchOnOff(model, value);
+	var pOne = utils.createObservable(model.one, function(target, key, value) {
+		console.info('Setting %s %s to %s', model.one.name, key, value);
+		switchOnOff(model.one, value);
 	});
-	var pTwo = utils.createObservableCustom(model.one, function(value) {
-		switchOnOff(model, value);
-	});
+	var pTwo = utils.createObservable(model.two, function(target, key, value) {
+		console.info('Setting %s %s to %s', model.two.name, key, value);
+		switchOnOff(model.two, value);
+	})
 	var allActuators = {pOne : pOne, pTwo : pTwo};
 	if (localParams.simulate) {
 		simulate(allActuators);
