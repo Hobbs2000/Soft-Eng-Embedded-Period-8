@@ -14,7 +14,20 @@ exports.listen = function(server) {
 		try {
 			observables[url] = utils.createObservable(selectResource(url), function (target, key, value) {
 				console.info('%s %s was changed to %s', target.name, key, value);
-			})
+			});
 		}
-	})
+		catch (e) {
+			console.log('Unable to observe %s resource!', url);
+		};
+	});
+};
+
+function selectResource(url) {
+	var parts = url.split('/');
+	parts.shift();
+	var result = resources;
+	for (var i = 0; i < parts.length; i++) {
+		result = result[parts[i]];
+	}
+	return result;
 }
