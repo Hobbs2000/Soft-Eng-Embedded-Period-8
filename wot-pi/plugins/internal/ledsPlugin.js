@@ -71,4 +71,6 @@ function setupObservables() {
 		console.info('%s %s was changed to %s', target.name, key, value);
 		switchOnOff(model.two, gpioActuators.led2, value);
 	})
+
+	exports.gpioActuators = gpioActuators;
 }
