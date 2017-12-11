@@ -4,22 +4,22 @@ var express = require('express'),
 
 	
 router.route('/').get(function (req, res, next) {
-	res.send(resources.pi.sensors);
+	//res.send(resources.pi.sensors);
 	req.result = resources.pi.sensors;
 	next();	
 });
 router.route('/pir').get(function (req, res, next) {
-	res.send(resources.pi.sensors.pir);
+	//res.send(resources.pi.sensors.pir);
 	req.result = resources.pi.sensors.pir;
 	next();
 })
 router.route('/temperature').get(function (req, res, next) {
-	res.send(resources.pi.sensors.temperature);
+	//res.send(resources.pi.sensors.temperature);
 	req.result = resources.pi.sensors.temperature;
 	next();
 });
 router.route('/humidity').get(function (req, res, next) {
-	res.send(resources.pi.sensors.humidity);
+	//res.send(resources.pi.sensors.humidity);
 	req.result = resources.pi.sensors.humidity;
 	next();
 });

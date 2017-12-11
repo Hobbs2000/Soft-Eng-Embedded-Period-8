@@ -1,6 +1,5 @@
 var msgpack = require('msgpack5') (),
-	encode = msgpack.encode,
-	json2html = require('node-json2html');
+	encode = msgpack.encode;
 
 module.exports = function() {
 	return function (req, res, next) {
@@ -13,15 +12,9 @@ module.exports = function() {
 				return;
 			}
 
-			if (req.accepts('html')) {
-				console.info('HTML representation selected!');
-				var transform = {'tag' : 'div', '${name} : ${value}'}
-				res.send(json2html.transform(req.result, transform));
-				return;
-			}
 
 			if (req.accepts('application/x-mgspack')) {
-				console.info('MessagePack representation selected!');
+				console.inlsfo('MessagePack representation selected!');
 				res.type('application/x-mgspack');
 				res.send(encode(req.result));
 				return;
