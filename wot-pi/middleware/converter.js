@@ -1,5 +1,6 @@
 var msgpack = require('msgpack5') (),
-	encode = msgpack.encode;
+	encode = msgpack.encode,
+	json2html = require('node-json2html');
 
 module.exports = function() {
 	return function (req, res, next) {
@@ -9,6 +10,13 @@ module.exports = function() {
 			if (req.accepts('json')) {
 				console.info('JSON representation selected!');
 				res.send(req.result);
+				return;
+			}
+
+			if (req.accepts('html')) {
+				console.info('HTML representation selected!');
+				var transform = {'tag': 'div', 'html' : '${name} : ${value}'};
+				res.send(json2html.transform(req.result, transform));
 				return;
 			}
 
